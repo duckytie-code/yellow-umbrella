@@ -1,0 +1,255 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import WaIcon from '../components/WaIcon.astro';
+import Photo from '../components/Photo.astro';
+import { links, productos, galeriaTints, WHATSAPP_VISIBLE, NOMBRE, COMUNA } from '../data/site';
+
+const year = new Date().getFullYear();
+
+// Pétalos que caen en el hero
+const petalColors = ['#F4A9BD', '#C9B6EE', '#A9E2C8', '#B9DCF2', '#FFD966'];
+const petals = Array.from({ length: 16 }, (_, i) => {
+  const drop = i % 3 === 0;
+  const size = 9 + ((i * 5) % 9);
+  return {
+    left: `${(i * 6.7 + 2) % 100}%`,
+    width: drop ? size * 0.75 : size,
+    height: size,
+    background: drop ? '#B9DCF2' : petalColors[i % petalColors.length],
+    radius: drop ? '50% 50% 50% 50% / 62% 62% 38% 38%' : '70% 0 70% 0',
+    duration: 10 + ((i * 1.7) % 7),
+    delay: -((i * 1.9) % 14),
+  };
+});
+
+const porQue = [
+  { color: '#FFCB2E', title: 'Hecho a mano', text: 'Cada flor la doblo y la armo yo, una por una. No hay dos iguales.' },
+  { color: '#F9C9D4', title: 'Dura para siempre', text: 'No se marchita y no necesita agua ni sol. Se queda contigo.' },
+  { color: '#DCCBF2', title: 'Colores a tu gusto', text: 'Me dices tus colores favoritos y yo los combino.' },
+  { color: '#C6E2F5', title: 'Ideal para regalar', text: 'Un detalle que no se bota. Se guarda por años.' },
+];
+
+const ocasiones = [
+  ['Cumpleaños', '#F9C9D4'], ['Aniversario', '#DCCBF2'], ['Día de la Madre', '#FFE08A'],
+  ['Graduaciones', '#C3EBD9'], ['Detalles para profesores', '#C6E2F5'], ['Decoración', '#FFFDF8'],
+];
+
+const pasos = [
+  { n: '01', color: '#E0A100', title: 'Eliges el modelo', text: 'Miras la colección y me dices cuál te gustó.' },
+  { n: '02', color: '#D9688A', title: 'Eliges los colores', text: 'Me cuentas qué colores quieres. Si dudas, te ayudo a combinarlos.' },
+  { n: '03', color: '#8A6BCB', title: 'Coordinamos la entrega', text: 'Retiro, entrega o despacho. Lo vemos juntos por WhatsApp.' },
+];
+---
+<Layout
+  title="Yellow Umbrella · Flores de limpia pipa hechas a mano"
+  description="Flores y creaciones de limpia pipa hechas a mano, a pedido y en los colores que tú quieras. Pídelas por WhatsApp."
+>
+  <div class="page">
+    <header class="header">
+      <div class="wrap header-in">
+        <a href="#inicio" class="brand">
+          <Logo />
+          <span class="brand-text">
+            <span class="brand-name">Yellow Umbrella</span>
+            <span class="brand-sub">Flores y creaciones de limpia pipa hechas a mano</span>
+          </span>
+        </a>
+        <a href={links.waMain} target="_blank" rel="noopener" class="btn btn-yellow btn-sm">
+          <WaIcon size={18} /> Pedir
+        </a>
+      </div>
+    </header>
+
+    <section id="inicio" class="hero">
+      <div class="petals" aria-hidden="true">
+        {petals.map((p) => (
+          <span
+            class="petal"
+            style={`left:${p.left};width:${p.width}px;height:${p.height}px;background:${p.background};border-radius:${p.radius};animation-duration:${p.duration}s;animation-delay:${p.delay}s`}
+          />
+        ))}
+      </div>
+      <div class="hero-blob"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <span class="hand">hechas a mano, una por una</span>
+          <h1>Flores para alegrar los días grises</h1>
+          <p class="hero-sub">Flores que nunca se marchitan, hechas a mano con cariño</p>
+          <div class="hero-cta">
+            <a href={links.waMain} target="_blank" rel="noopener" class="btn btn-yellow btn-big">
+              <WaIcon /> Pedir por WhatsApp
+            </a>
+            <a href="#coleccion" class="link-strong">Ver colección</a>
+          </div>
+        </div>
+        <div class="hero-photo" data-reveal="150">
+          <div class="hero-photo-bg"></div>
+          <div class="hero-photo-frame">
+            <Photo name="hero-ramo" placeholder="Foto grande de un ramo" alt="Ramo de flores de limpia pipa" eager />
+          </div>
+          <div class="sticker">¡no necesitan agua!</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="coleccion" class="wrap section">
+      <div class="head" data-reveal>
+        <span class="hand">la colección</span>
+        <h2>Elige tu favorita</h2>
+        <p class="lead">Todo lo hago a pedido, en los colores que tú quieras. Si no sabes cuál elegir, te ayudo.</p>
+      </div>
+      <div class="grid-products">
+        {productos.map((p, i) => (
+          <div class="cell" data-reveal={(i % 3) * 100}>
+            <article class="card">
+              <div class="card-img" style={`background:${p.tint}`}>
+                <Photo name={`producto-${i + 1}`} placeholder={`Foto: ${p.name.toLowerCase()}`} alt={p.name} />
+              </div>
+              <div class="card-body">
+                <h3>{p.name}</h3>
+                <p>{p.desc}</p>
+                <div class="card-foot">
+                  <span class="price">desde <strong>{p.price}</strong></span>
+                  <a href={links.waProducto(p.name)} target="_blank" rel="noopener" class="btn btn-yellow btn-sm">Pedir este</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        ))}
+        <div class="cell" data-reveal>
+          <div class="soon">
+            <div class="dots" aria-hidden="true">
+              <span style="background:#F4A9BD"></span><span style="background:#94D9BA"></span><span style="background:#FFCB2E"></span>
+            </div>
+            <span class="hand" style="font-size:24px">pronto</span>
+            <h3>Animalitos y llaveros</h3>
+            <p>Estoy practicando figuras nuevas. ¿Tienes una idea? Cuéntamela y quizás sea la próxima.</p>
+            <a href={links.waIdea} target="_blank" rel="noopener">Sugerir una figura</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-outer">
+      <div class="wrap why">
+        <div class="why-blob"></div>
+        <div class="head" data-reveal>
+          <span class="hand">por qué</span>
+          <h2>Por qué Yellow Umbrella</h2>
+        </div>
+        <div class="why-grid">
+          {porQue.map((x, i) => (
+            <div class="why-item" data-reveal={i * 100}>
+              <span class="num" style={`background:${x.color}`}>{i + 1}</span>
+              <h3>{x.title}</h3>
+              <p>{x.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section" style="padding-top:40px;padding-bottom:64px">
+      <div class="head" data-reveal>
+        <span class="hand">ocasiones</span>
+        <h2>Para cada momento</h2>
+        <p class="lead">¿No ves la tuya? Igual escríbeme.</p>
+      </div>
+      <div class="chips" data-reveal="100">
+        {ocasiones.map(([label, color]) => (
+          <span class="chip" style={`background:${color}`}>{label}</span>
+        ))}
+      </div>
+    </section>
+
+    <section id="como-pedir" class="how-outer">
+      <div class="wrap how">
+        <div class="head" data-reveal>
+          <span class="hand">súper fácil</span>
+          <h2>Cómo pedir</h2>
+        </div>
+        <ol class="steps">
+          {pasos.map((s, i) => (
+            <li class="cell" data-reveal={i * 120}>
+              <div class="step">
+                <span class="step-n" style={`color:${s.color}`}>{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="how-cta" data-reveal>
+          <a href={links.waMain} target="_blank" rel="noopener" class="btn btn-dark">
+            <WaIcon color="#FFCB2E" /> Empezar mi pedido
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre-mi" class="wrap about">
+      <div data-reveal style="display:flex;justify-content:center">
+        <figure class="polaroid">
+          <div class="polaroid-img">
+            <Photo name="sobre-mi-foto" placeholder="Tu foto haciendo flores" alt="Mi mesa de trabajo" />
+          </div>
+          <figcaption>mi mesa de trabajo</figcaption>
+        </figure>
+      </div>
+      <div class="about-copy" data-reveal="150">
+        <span class="hand">sobre mí</span>
+        <h2>Hola, soy {NOMBRE}</h2>
+        <p>Hago flores de limpia pipa a mano. Empecé [cuándo y cómo empezaste, por ejemplo: haciendo un ramo para el cumpleaños de mi mamá]. Me gustó tanto que no pude parar.</p>
+        <p>Le puse Yellow Umbrella porque [tu razón]. Para mí, un paraguas amarillo es algo que te alegra y te protege en los días grises. Eso quiero que sientan mis flores.</p>
+        <p>Hago cada pedido en casa, con ayuda de mi familia.</p>
+        <span class="signature">— {NOMBRE}</span>
+      </div>
+    </section>
+
+    <section class="wrap section" style="padding-top:16px;padding-bottom:72px">
+      <div class="gallery-head" data-reveal>
+        <div class="head">
+          <span class="hand">en instagram</span>
+          <h2>Lo último que hice</h2>
+        </div>
+        <a href={links.ig} target="_blank" rel="noopener">Sígueme en {links.igHandle}</a>
+      </div>
+      <div class="gallery">
+        {galeriaTints.map((tint, i) => (
+          <div class="gallery-item" data-reveal={(i % 4) * 80} style={`background:${tint}`}>
+            <Photo name={`galeria-${i + 1}`} placeholder="Foto de Instagram" alt="Creación de Yellow Umbrella" />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="contacto" class="contact-outer">
+      <div class="wrap contact" data-reveal>
+        <div class="contact-b1"></div>
+        <div class="contact-b2"></div>
+        <div class="contact-in">
+          <Logo size={72} body="#FFFDF8" dot="#FFFDF8" />
+          <h2>¿Hacemos tu ramo?</h2>
+          <p>Escríbeme por WhatsApp y te respondo lo antes posible.</p>
+          <a href={links.waMain} target="_blank" rel="noopener" class="btn btn-dark btn-contact">
+            <WaIcon size={26} color="#FFCB2E" /> {WHATSAPP_VISIBLE}
+          </a>
+          <div class="contact-links">
+            <a href={links.ig} target="_blank" rel="noopener">Instagram {links.igHandle}</a>
+            <span>Entregas en {COMUNA} · otras comunas, consúltame</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="wrap footer">
+      <b>Yellow Umbrella · {year}</b>
+      <span>Hecho a mano con cariño</span>
+    </footer>
+
+    <a href={links.waMain} target="_blank" rel="noopener" aria-label="Pedir por WhatsApp" class="float-wa">
+      <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M12 3C7 3 3 6.6 3 11c0 2.2 1 4.2 2.7 5.6L5 21l4.3-2.2c.9.2 1.8.3 2.7.3 5 0 9-3.6 9-8s-4-8-9-8z" fill="#FFFFFF"/><circle cx="8.5" cy="11" r="1.2" fill="#25D366"/><circle cx="12" cy="11" r="1.2" fill="#25D366"/><circle cx="15.5" cy="11" r="1.2" fill="#25D366"/></svg>
+    </a>
+  </div>
+</Layout>

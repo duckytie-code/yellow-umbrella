@@ -1,0 +1,18 @@
+---
+// Muestra la foto que se llame igual que `name` dentro de src/assets/fotos/
+// (por ejemplo hero-ramo.jpg). Si no existe, muestra un recuadro con el texto `placeholder`.
+import { Image } from 'astro:assets';
+
+const { name, placeholder, alt = '', eager = false } = Astro.props;
+const fotos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/fotos/*.{jpg,jpeg,png,webp,avif}', { eager: true });
+const match = Object.entries(fotos).find(([path]) => path.split('/').pop()!.replace(/\.[^.]+$/, '') === name);
+---
+{match ? (
+  <Image src={match[1].default} alt={alt} widths={[400, 800]} sizes="(max-width: 600px) 90vw, 500px" loading={eager ? 'eager' : 'lazy'} class="photo" />
+) : (
+  <div class="photo-ph"><span>{placeholder}</span></div>
+)}
+<style>
+  .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px; color: rgba(59,47,37,.55); font-size: 14px; font-weight: 600; }
+</style>
