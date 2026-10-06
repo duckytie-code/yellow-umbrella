@@ -3,9 +3,15 @@ import Layout from '../layouts/Layout.astro';
 import Logo from '../components/Logo.astro';
 import WaIcon from '../components/WaIcon.astro';
 import Photo from '../components/Photo.astro';
+import { tieneFoto } from '../data/fotos';
 import { links, productos, galeriaTints, WHATSAPP_VISIBLE, NOMBRE, COMUNA } from '../data/site';
 
 const year = new Date().getFullYear();
+
+// La galería solo muestra las fotos que ya subiste (galeria-1, galeria-2, …)
+const galeria = galeriaTints
+  .map((tint, i) => ({ tint, n: i + 1 }))
+  .filter((g) => tieneFoto(`galeria-${g.n}`));
 
 // Pétalos que caen en el hero
 const petalColors = ['#F4A9BD', '#C9B6EE', '#A9E2C8', '#B9DCF2', '#FFD966'];
@@ -207,6 +213,7 @@ const pasos = [
       </div>
     </section>
 
+    {galeria.length > 0 && (
     <section class="wrap section" style="padding-top:16px;padding-bottom:72px">
       <div class="gallery-head" data-reveal>
         <div class="head">
@@ -216,13 +223,14 @@ const pasos = [
         <a href={links.ig} target="_blank" rel="noopener">Sígueme en {links.igHandle}</a>
       </div>
       <div class="gallery">
-        {galeriaTints.map((tint, i) => (
+        {galeria.map(({ tint, n }, i) => (
           <div class="gallery-item" data-reveal={(i % 4) * 80} style={`background:${tint}`}>
-            <Photo name={`galeria-${i + 1}`} placeholder="Foto de Instagram" alt="Creación de Yellow Umbrella" />
+            <Photo name={`galeria-${n}`} placeholder="Foto de Instagram" alt="Creación de Yellow Umbrella" />
           </div>
         ))}
       </div>
     </section>
+    )}
 
     <section id="contacto" class="contact-outer">
       <div class="wrap contact" data-reveal>

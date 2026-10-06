@@ -20,11 +20,9 @@ export const links = {
 
 export const productos = [
   { name: 'Ramos', desc: 'Armados a tu gusto, del tamaño que quieras.', price: '$X.XXX', tint: '#F9C9D4' },
-  { name: 'Flores individuales', desc: 'Una flor sola también dice mucho.', price: '$X.XXX', tint: '#DCCBF2' },
-  { name: 'Girasoles', desc: 'Mis favoritos. Puro sol para tu pieza.', price: '$X.XXX', tint: '#FFE08A' },
+  { name: 'Lirios', desc: 'Blancos y delicados, con sus estambres.', price: '$X.XXX', tint: '#DCCBF2' },
   { name: 'Tulipanes', desc: 'Delicados y en el color que elijas.', price: '$X.XXX', tint: '#C6E2F5' },
-  { name: 'Mini ramos', desc: 'Chiquititos, perfectos como detalle.', price: '$X.XXX', tint: '#C3EBD9' },
-  { name: 'Arreglos en macetero', desc: 'Una plantita que nunca hay que regar.', price: '$X.XXX', tint: '#F9C9D4' },
+  { name: 'Margaritas y gerberas', desc: 'Alegres, con el centro amarillo de siempre.', price: '$X.XXX', tint: '#FFE08A' },
 ];
 
 export const galeriaTints = ['#FFE08A', '#F9C9D4', '#C3EBD9', '#DCCBF2', '#C6E2F5', '#FFE08A', '#DCCBF2', '#C3EBD9'];
